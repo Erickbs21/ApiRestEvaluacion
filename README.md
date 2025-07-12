@@ -500,51 +500,6 @@ Importa la colección de Postman incluida para probar todos los endpoints:
 - ✅ Health checks
 
 ---
-
-## 📈 Roadmap
-
-### Próximas Características
-
-- [ ] **Autenticación JWT**
-- [ ] **Base de Datos Real** (SQL Server/PostgreSQL)
-- [ ] **Entity Framework Core**
-- [ ] **Unit Tests**
-- [ ] **Integration Tests**
-- [ ] **Docker Support**
-- [ ] **CI/CD Pipeline**
-- [ ] **API Versioning**
-- [ ] **Caching Redis**
-- [ ] **Notifications**
-
----
-
-## 🤝 Contribución
-
-### Cómo Contribuir
-
-1. Fork el proyecto
-2. Crear rama feature (`git checkout -b feature/nueva-caracteristica`)
-3. Commit cambios (`git commit -m 'Agregar nueva característica'`)
-4. Push a la rama (`git push origin feature/nueva-caracteristica`)
-5. Abrir Pull Request
-
-### Estándares de Código
-
-- **C# Conventions**: Microsoft guidelines
-- **Naming**: PascalCase para públicos, camelCase para privados
-- **Comments**: XML documentation
-- **Testing**: Unit tests obligatorios
-
----
-
-## 📞 Soporte
-
-### Contacto
-
-- **Issues**: GitHub Issues
-- **Documentación**: Este README
-- **API Docs**: Swagger UI en `/index.html`
-
 ### FAQ
 
 **Q: ¿Cómo cambio el puerto?**
@@ -559,7 +514,7 @@ A: Extiende los validators en `Validators/`.
 ---
 
 
-## 🙏 Agradecimientos
+## Herramientas:
 
 - **Microsoft** por .NET 8
 - **Swashbuckle** por Swagger integration
@@ -568,6 +523,5 @@ A: Extiende los validators en `Validators/`.
 
 ---
 
-**¡Gracias por usar MiBanco API!** 🏦✨
+**¡Gracias por ver mi  API!** 🏦✨
 
-*Desarrollado con ❤️ para la evaluacion bancarios modernos*
