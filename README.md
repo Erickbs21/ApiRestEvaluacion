@@ -1,463 +1,573 @@
-🚀 MiBanco API: Guía Completa de Pruebas
-¡Bienvenido a la guía de pruebas para la API de MiBanco! Este documento te proporcionará todas las herramientas y pasos necesarios para validar a fondo el funcionamiento de nuestra API. Prepárate para explorar, crear y transaccionar con los datos de MiBanco de una manera eficiente y efectiva.
+# 🏦 MiBanco API
 
-📋 Índice Rápido
-⚙️ Configuración Inicial
+**API REST para servicios bancarios** - Sistema completo de gestión bancaria desarrollado en .NET 8
 
-📮 Pruebas con Postman
+[![.NET](https://img.shields.io/badge/.NET-8.0-blue.svg)](https://dotnet.microsoft.com/)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![Status](https://img.shields.io/badge/Status-Active-brightgreen.svg)]()
 
-💻 Pruebas con cURL
+---
 
-🧪 Casos de Prueba Detallados
+## 📋 Tabla de Contenidos
 
-🔍 Validaciones Clave
+- [🚀 Inicio Rápido](#-inicio-rápido)
+- [📖 Descripción](#-descripción)
+- [🏗️ Arquitectura](#️-arquitectura)
+- [🔧 Instalación](#-instalación)
+- [📚 Documentación de Endpoints](#-documentación-de-endpoints)
+- [🧪 Ejemplos de Uso](#-ejemplos-de-uso)
+- [⚙️ Configuración](#️-configuración)
+- [🔒 Seguridad](#-seguridad)
+- [📊 Monitoreo](#-monitoreo)
+- [🤝 Contribución](#-contribución)
 
-🛠️ Solución de Problemas (Troubleshooting)
+---
 
-📊 Métricas y Datos de Prueba
+## 🚀 Inicio Rápido
 
-⚙️ Configuración Inicial
-Antes de sumergirnos en las pruebas, asegúrate de tener la API lista y funcionando.
+### Prerrequisitos
+- .NET 8.0 SDK
+- Visual Studio 2022 o VS Code
+- Postman (opcional, para pruebas)
 
-1. Ejecuta la API 🚀
-Navega hasta el directorio de la API y arráncala:
-
-Bash
-
+### Ejecutar la API
+\`\`\`bash
+git clone <tu-repositorio>
 cd MiBancoAPI
+dotnet restore
 dotnet run
-2. Verifica que esté Activa ✅
-Asegúrate de que la API responde correctamente. Deberías ver una respuesta con información del sistema.
+\`\`\`
 
-Bash
+### Acceder a la Documentación
+- **Swagger UI**: `https://localhost:7xxx/index.html`
+- **Health Check**: `https://localhost:7xxx/health`
+- **API Info**: `https://localhost:7xxx/api/info`
 
-curl https://localhost:7xxx/api/info
-3. Accede a la Documentación de Swagger 📖
-Para una visión interactiva de todos los endpoints disponibles, abre tu navegador y visita:
+---
 
-https://localhost:7xxx/index.html
+## 📖 Descripción
 
-📮 Pruebas con Postman
-Postman es tu aliado perfecto para una exploración gráfica e interactiva de la API.
+MiBanco API es un sistema bancario completo que proporciona servicios para:
 
-Importa la Colección de Postman 📥
-Descarga el archivo MiBanco-API.postman_collection.json.
+- ✅ **Gestión de Clientes**: Registro, consulta y administración
+- ✅ **Procesamiento de Pagos**: Depósitos, retiros y transferencias
+- ✅ **Sistema de Auditoría**: Logging completo de operaciones
+- ✅ **Monitoreo**: Health checks y métricas
+- ✅ **Documentación**: Swagger UI integrado
 
-Abre Postman.
+### Características Principales
 
-Haz clic en "Import" → selecciona "File" → y elige el archivo descargado.
+| Característica | Descripción |
+|----------------|-------------|
+| 🏗️ **Arquitectura Limpia** | Separación de responsabilidades |
+| 🔒 **Seguridad** | Rate limiting, CORS, validaciones |
+| 📊 **Logging** | Serilog con archivos rotativos |
+| 🧪 **Validaciones** | FluentValidation integrado |
+| 📚 **Documentación** | Swagger con ejemplos |
+| 🏥 **Health Checks** | Monitoreo de servicios |
 
-Configura la variable baseUrl dentro de la colección con el puerto local de tu API (ej. https://localhost:7xxx).
+---
 
-Secuencia de Prueba Recomendada 🧭
-Sigue estos pasos para una exploración completa:
+## 🏗️ Arquitectura
 
-1️⃣ Verifica el Estado del Sistema 🟢
-GET /api/info
+\`\`\`
+MiBancoAPI/
+├── Controllers/          # Controladores de API
+├── Models/              # Modelos de datos
+│   ├── Entities/        # Entidades del dominio
+│   └── DTOs/           # Objetos de transferencia
+├── Services/           # Lógica de negocio
+├── Middleware/         # Middleware personalizado
+├── Extensions/         # Métodos de extensión
+├── Validators/         # Validadores FluentValidation
+└── Filters/           # Filtros de acción
+\`\`\`
 
-GET /health
+### Patrones Implementados
+- **Repository Pattern** (simulado en memoria)
+- **Dependency Injection**
+- **Middleware Pipeline**
+- **DTO Pattern**
+- **Response Wrapper Pattern**
 
-2️⃣ Explora Datos Existentes 🕵️‍♀️
-GET /api/cliente
+---
 
-GET /api/pago
+## 🔧 Instalación
 
-GET /api/log
+### 1. Clonar el Repositorio
+\`\`\`bash
+git clone <tu-repositorio>
+cd MiBancoAPI
+\`\`\`
 
-3️⃣ Crea un Nuevo Cliente ➕
-Envía un POST request a /api/cliente con el siguiente cuerpo:
+### 2. Restaurar Dependencias
+\`\`\`bash
+dotnet restore
+\`\`\`
 
-JSON
-
+### 3. Configurar Appsettings
+\`\`\`json
 {
-  "dpi": "7777777777777",
-  "nombres": "Carlos Eduardo",
-  "apellidos": "Morales Díaz",
-  "email": "carlos.morales@email.com",
-  "telefono": "77777777",
-  "fechaNacimiento": "1988-07-20T00:00:00",
-  "direccion": "Zona 12, Ciudad de Guatemala",
-  "saldoInicial": 3000.00
+  "MiBancoSettings": {
+    "MaxTransactionAmount": 100000,
+    "MinimumAge": 18,
+    "MaxDailyTransactions": 10
+  }
 }
-4️⃣ Realiza Transacciones Clave 💸
-Depósito: POST /api/pago
+\`\`\`
 
-JSON
+### 4. Ejecutar la Aplicación
+\`\`\`bash
+dotnet run
+\`\`\`
 
+---
+
+## 📚 Documentación de Endpoints
+
+### 🏠 **Sistema**
+
+#### GET `/api/info`
+Obtiene información general de la API.
+
+**Respuesta:**
+\`\`\`json
 {
-  "dpiCliente": "7777777777777",
-  "monto": 1500.00,
-  "concepto": "Depósito inicial",
-  "tipoPago": 2
+  "name": "MiBanco API",
+  "version": "1.0.0",
+  "environment": "Development",
+  "timestamp": "2024-01-07T10:30:00Z",
+  "status": "Running"
 }
-Retiro: POST /api/pago
+\`\`\`
 
-JSON
+#### GET `/health`
+Verifica el estado de la API y servicios externos.
 
+**Respuesta:**
+\`\`\`json
 {
-  "dpiCliente": "7777777777777",
-  "monto": 500.00,
-  "concepto": "Retiro cajero",
-  "tipoPago": 3
+  "status": "Healthy",
+  "totalDuration": "00:00:00.0123456",
+  "entries": {
+    "database": {
+      "status": "Healthy",
+      "description": "Base de datos funcionando correctamente"
+    }
+  }
 }
-5️⃣ Verifica los Resultados 📊
-GET /api/cliente/7777777777777
+\`\`\`
 
-GET /api/pago/cliente/7777777777777
+---
 
-GET /api/log
+### 👥 **Clientes**
 
-💻 Pruebas con cURL
-Para los amantes de la terminal, cURL te permite interactuar directamente con la API.
+#### GET `/api/cliente`
+Obtiene todos los clientes activos.
 
-Información del Sistema ℹ️
-Bash
+**Respuesta:**
+\`\`\`json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "dpi": "1234567890101",
+      "nombreCompleto": "Juan Carlos García López",
+      "email": "juan.garcia@email.com",
+      "telefono": "12345678",
+      "edad": 38,
+      "saldoFormateado": "Q5,000.00",
+      "estado": 1,
+      "fechaCreacion": "2024-01-07T10:00:00Z"
+    }
+  ],
+  "message": "Se encontraron 2 clientes"
+}
+\`\`\`
 
-# Información de la API
-curl -X GET "https://localhost:7xxx/api/info" \
-  -H "accept: application/json"
+#### GET `/api/cliente/{dpi}`
+Obtiene un cliente específico por su DPI.
 
-# Verificación de salud (Health Check)
-curl -X GET "https://localhost:7xxx/health" \
-  -H "accept: application/json"
-Gestión de Clientes 👤
-Bash
+**Parámetros:**
+- `dpi` (string): Número de DPI de 13 dígitos
 
-# Obtener todos los clientes
-curl -X GET "https://localhost:7xxx/api/cliente" \
-  -H "accept: application/json"
+**Ejemplo:** `GET /api/cliente/1234567890101`
 
-# Obtener un cliente específico (ej. por DPI)
-curl -X GET "https://localhost:7xxx/api/cliente/1234567890101" \
-  -H "accept: application/json"
+**Respuesta:**
+\`\`\`json
+{
+  "success": true,
+  "data": {
+    "id": 1,
+    "dpi": "1234567890101",
+    "nombres": "Juan Carlos",
+    "apellidos": "García López",
+    "email": "juan.garcia@email.com",
+    "telefono": "12345678",
+    "fechaNacimiento": "1985-05-15T00:00:00Z",
+    "direccion": "Zona 10, Ciudad de Guatemala",
+    "saldoCuenta": 5000.00,
+    "estado": 1,
+    "nombreCompleto": "Juan Carlos García López",
+    "edad": 38,
+    "saldoFormateado": "Q5,000.00"
+  },
+  "message": "Cliente encontrado exitosamente"
+}
+\`\`\`
 
-# Crear un nuevo cliente
+#### POST `/api/cliente`
+Crea un nuevo cliente.
+
+**Body:**
+\`\`\`json
+{
+  "dpi": "5555555555555",
+  "nombres": "Ana María",
+  "apellidos": "González Pérez",
+  "email": "ana.gonzalez@email.com",
+  "telefono": "55555555",
+  "fechaNacimiento": "1992-03-15T00:00:00",
+  "direccion": "Zona 15, Ciudad de Guatemala",
+  "saldoInicial": 2500.00
+}
+\`\`\`
+
+**Validaciones:**
+- DPI: 13 dígitos, único
+- Nombres/Apellidos: 2-100 caracteres, solo letras
+- Email: formato válido
+- Teléfono: 8 dígitos
+- Edad: mayor de 18 años
+- Saldo inicial: 0 - 1,000,000
+
+---
+
+### 💰 **Pagos**
+
+#### GET `/api/pago`
+Obtiene todos los pagos registrados.
+
+**Respuesta:**
+\`\`\`json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "dpiCliente": "1234567890101",
+      "monto": 500.00,
+      "montoFormateado": "Q500.00",
+      "concepto": "Pago de servicios básicos",
+      "tipoPago": 1,
+      "numeroReferencia": "REF001",
+      "fechaPago": "2024-01-02T10:00:00Z",
+      "estado": 3
+    }
+  ],
+  "message": "Se encontraron 2 pagos"
+}
+\`\`\`
+
+#### GET `/api/pago/cliente/{dpi}`
+Obtiene el historial de pagos de un cliente.
+
+**Ejemplo:** `GET /api/pago/cliente/1234567890101`
+
+#### POST `/api/pago`
+Crea un nuevo pago.
+
+**Body:**
+\`\`\`json
+{
+  "dpiCliente": "1234567890101",
+  "monto": 1000.00,
+  "concepto": "Depósito en efectivo",
+  "tipoPago": 2,
+  "numeroReferencia": "DEP001",
+  "notasAdicionales": "Depósito realizado en sucursal"
+}
+\`\`\`
+
+**Tipos de Pago:**
+- `1`: Transferencia
+- `2`: Depósito
+- `3`: Retiro
+- `4`: Pago de Servicios
+- `5`: Pago de Préstamo
+
+**Estados de Pago:**
+- `1`: Pendiente
+- `2`: Procesando
+- `3`: Completado
+- `4`: Fallido
+- `5`: Cancelado
+
+---
+
+### 📋 **Logs**
+
+#### GET `/api/log`
+Obtiene todos los logs del sistema.
+
+#### GET `/api/log/fecha/{fecha}`
+Obtiene logs de una fecha específica.
+
+**Ejemplo:** `GET /api/log/fecha/2024-01-07`
+
+#### GET `/api/log/nivel/{nivel}`
+Obtiene logs por nivel de severidad.
+
+**Niveles:**
+- `1`: Info
+- `2`: Warning
+- `3`: Error
+- `4`: Debug
+
+---
+
+## 🧪 Ejemplos de Uso
+
+### Flujo Completo de Operaciones
+
+#### 1. Crear un Cliente
+\`\`\`bash
 curl -X POST "https://localhost:7xxx/api/cliente" \
   -H "Content-Type: application/json" \
   -d '{
-    "dpi": "8888888888888",
-    "nombres": "María José",
-    "apellidos": "Hernández Ruiz",
-    "email": "maria.hernandez@email.com",
-    "telefono": "88888888",
-    "fechaNacimiento": "1995-12-10T00:00:00",
-    "direccion": "Zona 7, Mixco",
-    "saldoInicial": 1800.00
+    "dpi": "9999999999999",
+    "nombres": "Carlos",
+    "apellidos": "Mendoza",
+    "email": "carlos@email.com",
+    "telefono": "99999999",
+    "fechaNacimiento": "1990-01-01T00:00:00",
+    "direccion": "Zona 1, Guatemala",
+    "saldoInicial": 1000.00
   }'
-Procesamiento de Pagos 💰
-Bash
+\`\`\`
 
-# Crear un depósito
+#### 2. Realizar un Depósito
+\`\`\`bash
 curl -X POST "https://localhost:7xxx/api/pago" \
   -H "Content-Type: application/json" \
   -d '{
-    "dpiCliente": "1234567890101",
-    "monto": 2000.00,
-    "concepto": "Depósito por transferencia",
-    "tipoPago": 2,
-    "numeroReferencia": "DEP-2024-001",
-    "notasAdicionales": "Transferencia desde banco externo"
+    "dpiCliente": "9999999999999",
+    "monto": 500.00,
+    "concepto": "Depósito inicial",
+    "tipoPago": 2
   }'
+\`\`\`
 
-# Crear un retiro
-curl -X POST "https://localhost:7xxx/api/pago" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "dpiCliente": "1234567890101",
-    "monto": 800.00,
-    "concepto": "Retiro en efectivo",
-    "tipoPago": 3,
-    "numeroReferencia": "RET-2024-001"
-  }'
+#### 3. Consultar Saldo
+\`\`\`bash
+curl -X GET "https://localhost:7xxx/api/cliente/9999999999999"
+\`\`\`
 
-# Realizar un pago de servicios
-curl -X POST "https://localhost:7xxx/api/pago" \
-  -H "Content-Type: application/json" \
-  -d '{
-    "dpiCliente": "9876543210987",
-    "monto": 350.00,
-    "concepto": "Pago de agua potable",
-    "tipoPago": 4,
-    "numeroReferencia": "EMPAGUA-2024-001"
-  }'
-Consulta de Logs del Sistema 📜
-Bash
+#### 4. Ver Historial
+\`\`\`bash
+curl -X GET "https://localhost:7xxx/api/pago/cliente/9999999999999"
+\`\`\`
 
-# Obtener todos los logs
-curl -X GET "https://localhost:7xxx/api/log" \
-  -H "accept: application/json"
+---
 
-# Filtrar logs por fecha (ej. 7 de enero de 2024)
-curl -X GET "https://localhost:7xxx/api/log/fecha/2024-01-07" \
-  -H "accept: application/json"
+## ⚙️ Configuración
 
-# Filtrar logs por nivel (1=Info, 2=Warning, 3=Error)
-curl -X GET "https://localhost:7xxx/api/log/nivel/1" \
-  -H "accept: application/json"
-🧪 Casos de Prueba Detallados
-Aquí te presentamos ejemplos de payloads para escenarios exitosos y de error.
+### Variables de Entorno
 
-✅ Casos Exitosos
-Cliente Válido
-JSON
+| Variable | Descripción | Valor por Defecto |
+|----------|-------------|-------------------|
+| `ASPNETCORE_ENVIRONMENT` | Entorno de ejecución | Development |
+| `ASPNETCORE_URLS` | URLs de escucha | https://localhost:7xxx |
 
+### Configuración de Aplicación
+
+\`\`\`json
 {
-  "dpi": "1111111111111",
-  "nombres": "Ana Lucía",
-  "apellidos": "Pérez García",
-  "email": "ana.perez@gmail.com",
-  "telefono": "11111111",
-  "fechaNacimiento": "1990-05-15T00:00:00",
-  "direccion": "Avenida Las Américas 15-20, Zona 13",
-  "saldoInicial": 5000.00
+  "MiBancoSettings": {
+    "MaxTransactionAmount": 100000,
+    "MinimumAge": 18,
+    "MaxDailyTransactions": 10,
+    "EnableNotifications": true
+  },
+  "ExternalServices": {
+    "BankingServiceUrl": "https://api.external-bank.com",
+    "Timeout": "00:00:30"
+  }
 }
-Transacciones Válidas
-Depósito:
+\`\`\`
 
-JSON
+### Rate Limiting
 
-{
-  "dpiCliente": "1111111111111",
-  "monto": 1000.00,
-  "concepto": "Depósito mensual",
-  "tipoPago": 2
-}
-Transferencia:
+- **Límite**: 100 requests por minuto
+- **Cola**: 10 requests en espera
+- **Política**: Ventana fija
 
-JSON
+---
 
-{
-  "dpiCliente": "1111111111111",
-  "monto": 750.00,
-  "concepto": "Transferencia a familiar",
-  "tipoPago": 1,
-  "numeroReferencia": "TRF-FAM-001"
-}
-❌ Casos de Error
-Estos payloads deberían generar errores de validación o lógica de negocio.
+## 🔒 Seguridad
 
-Cliente Inválido
-JSON
+### Medidas Implementadas
 
-{
-  "dpi": "123",             // ❌ DPI demasiado corto
-  "nombres": "",            // ❌ Nombres vacíos
-  "apellidos": "Test123",   // ❌ Apellidos con números
-  "email": "email-malo",    // ❌ Formato de email inválido
-  "telefono": "123",        // ❌ Teléfono demasiado corto
-  "fechaNacimiento": "2020-01-01", // ❌ Cliente menor de edad
-  "direccion": "Dir",       // ❌ Dirección demasiado corta
-  "saldoInicial": -100      // ❌ Saldo inicial negativo
-}
-Pago Inválido
-JSON
+- ✅ **HTTPS Obligatorio**
+- ✅ **CORS Configurado**
+- ✅ **Rate Limiting**
+- ✅ **Validación de Entrada**
+- ✅ **Manejo de Excepciones**
+- ✅ **Logging de Seguridad**
 
-{
-  "dpiCliente": "9999999999999", // ❌ Cliente no existente
-  "monto": -500.00,             // ❌ Monto negativo
-  "concepto": "ABC",            // ❌ Concepto demasiado corto
-  "tipoPago": 99                // ❌ Tipo de pago inválido
-}
-🔍 Validaciones Clave
-Comprender las reglas de validación te ayudará a depurar y probar la API de manera efectiva.
+### Validaciones de Negocio
 
-Validaciones de Cliente
-Campo
+- **DPI**: Único, 13 dígitos
+- **Edad**: Mínimo 18 años
+- **Montos**: Límites configurables
+- **Saldos**: No negativos
+- **Retiros**: Verificación de fondos
 
-Reglas
+---
 
-DPI
+## 📊 Monitoreo
 
-13 dígitos, único, solo números
+### Health Checks
 
-Nombres
+La API incluye verificaciones de salud en `/health`:
 
-2-100 caracteres, solo letras y espacios
+- **Database**: Simulación de conexión a BD
+- **External Services**: Verificación de servicios externos
+- **Memory**: Uso de memoria
+- **Disk**: Espacio disponible
 
-Apellidos
+### Logging
 
-2-100 caracteres, solo letras y espacios
+Configurado con **Serilog**:
 
-Email
+- **Console**: Desarrollo
+- **File**: Archivos rotativos diarios
+- **Structured**: Formato JSON
+- **Levels**: Info, Warning, Error, Debug
 
-Formato válido de email (RFC 5322)
+### Métricas
 
-Teléfono
+- Tiempo de respuesta por endpoint
+- Número de requests por minuto
+- Errores por tipo
+- Uso de recursos
 
-8 dígitos exactos
+---
 
-Edad
+## 🚀 Despliegue
 
-Entre 18 y 100 años
+### Desarrollo Local
+\`\`\`bash
+dotnet run --environment Development
+\`\`\`
 
-Dirección
+### Producción
+\`\`\`bash
+dotnet publish -c Release
+dotnet MiBancoAPI.dll --environment Production
+\`\`\`
 
-10-200 caracteres
+### Docker (Futuro)
+\`\`\`dockerfile
+FROM mcr.microsoft.com/dotnet/aspnet:8.0
+COPY . /app
+WORKDIR /app
+EXPOSE 80
+ENTRYPOINT ["dotnet", "MiBancoAPI.dll"]
+\`\`\`
 
-Saldo Inicial
+---
 
-Entre 0 y 1,000,000
+## 🧪 Testing
 
+### Postman Collection
 
-Exportar a Hojas de cálculo
-Validaciones de Pago
-Campo
+Importa la colección de Postman incluida para probar todos los endpoints:
 
-Reglas
+1. Abrir Postman
+2. Import → File → Seleccionar `MiBanco-API.postman_collection.json`
+3. Configurar variable `baseUrl` con tu puerto local
 
-DPI Cliente
+### Casos de Prueba
 
-Debe existir en el sistema
+- ✅ Crear cliente válido
+- ✅ Validaciones de DPI
+- ✅ Depósitos y retiros
+- ✅ Saldos insuficientes
+- ✅ Clientes inexistentes
+- ✅ Rate limiting
+- ✅ Health checks
 
-Monto
+---
 
-Mayor a 0, máximo 100,000
+## 📈 Roadmap
 
-Concepto
+### Próximas Características
 
-5-200 caracteres
+- [ ] **Autenticación JWT**
+- [ ] **Base de Datos Real** (SQL Server/PostgreSQL)
+- [ ] **Entity Framework Core**
+- [ ] **Unit Tests**
+- [ ] **Integration Tests**
+- [ ] **Docker Support**
+- [ ] **CI/CD Pipeline**
+- [ ] **API Versioning**
+- [ ] **Caching Redis**
+- [ ] **Notifications**
 
-Tipo Pago
+---
 
-1-5 (valores definidos en el enum de la API)
+## 🤝 Contribución
 
-Referencia
+### Cómo Contribuir
 
-Máximo 50 caracteres (opcional)
+1. Fork el proyecto
+2. Crear rama feature (`git checkout -b feature/nueva-caracteristica`)
+3. Commit cambios (`git commit -m 'Agregar nueva característica'`)
+4. Push a la rama (`git push origin feature/nueva-caracteristica`)
+5. Abrir Pull Request
 
-Notas
+### Estándares de Código
 
-Máximo 500 caracteres (opcional)
+- **C# Conventions**: Microsoft guidelines
+- **Naming**: PascalCase para públicos, camelCase para privados
+- **Comments**: XML documentation
+- **Testing**: Unit tests obligatorios
 
+---
 
-Exportar a Hojas de cálculo
-Lógica de Negocio Importante 🧠
-Retiros: Siempre verifican que el saldo sea suficiente antes de procesarse.
+## 📞 Soporte
 
-Depósitos: Aumentan el saldo del cliente.
+### Contacto
 
-Transferencias: Se procesan de forma estándar.
+- **Issues**: GitHub Issues
+- **Documentación**: Este README
+- **API Docs**: Swagger UI en `/index.html`
 
-Referencias: Si no se proporcionan, se generan automáticamente.
+### FAQ
 
-🛠️ Solución de Problemas (Troubleshooting)
-Si encuentras algún obstáculo, aquí hay soluciones a problemas comunes.
+**Q: ¿Cómo cambio el puerto?**
+A: Modifica `launchSettings.json` o usa `--urls` parameter.
 
-Problemas Frecuentes 🚧
-1. Error de Certificado SSL (Self-Signed Certificate)
-Si usas curl y obtienes un error de certificado, puedes ignorarlo temporalmente (¡solo para desarrollo!):
+**Q: ¿Dónde están los logs?**
+A: En la carpeta `logs/` con rotación diaria.
 
-Bash
+**Q: ¿Cómo agrego más validaciones?**
+A: Extiende los validators en `Validators/`.
 
-# Solución: Agrega -k para ignorar certificados (inseguro en producción)
-curl -k -X GET "https://localhost:7xxx/api/info"
-2. Puerto Incorrecto 🔌
-Asegúrate de usar el puerto correcto. Cuando ejecutas dotnet run, la consola te mostrará el puerto en una línea similar a:
+---
 
-"Now listening on: https://localhost:7xxx"
 
-3. API No Responde 😴
-Verifica si la API está ejecutándose:
+## 🙏 Agradecimientos
 
-Bash
+- **Microsoft** por .NET 8
+- **Swashbuckle** por Swagger integration
+- **Serilog** por logging
+- **FluentValidation** por validaciones
 
-dotnet run --verbosity normal
-Revisa los logs en la consola o busca archivos de log en la carpeta /logs de tu proyecto.
+---
 
-4. Errores de Validación 🛑
-Formato JSON: Confirma que el JSON de tus requests POST y PUT esté bien formado.
+**¡Gracias por usar MiBanco API!** 🏦✨
 
-Tipos de Datos: Verifica que estés enviando los tipos de datos correctos (números, fechas, cadenas).
-
-Longitudes: Asegúrate de que los campos cumplan con las longitudes mínimas y máximas.
-
-Valores de Enum: Confirma que los valores de los enums (como tipoPago) sean válidos.
-
-Códigos de Estado HTTP Comunes 🚦
-Entender los códigos de estado te ayuda a diagnosticar rápidamente.
-
-Código
-
-Significado
-
-Cuándo Ocurre
-
-200
-
-OK
-
-Consultas GET exitosas.
-
-201
-
-Created
-
-Creación de un recurso (POST) exitosa.
-
-400
-
-Bad Request
-
-Datos de entrada inválidos (errores de validación).
-
-404
-
-Not Found
-
-El recurso solicitado no existe.
-
-409
-
-Conflict
-
-Conflicto de datos (ej. DPI ya existe al crear un cliente).
-
-500
-
-Server Error
-
-Un error inesperado en el servidor.
-
-
-Exportar a Hojas de cálculo
-Logs Útiles 📄
-Los logs son tus mejores amigos para el diagnóstico.
-
-Bash
-
-# Ver logs en tiempo real (Linux/macOS)
-tail -f logs/mibanco-20240107.txt
-
-# Buscar errores específicos
-grep "Error" logs/mibanco-*.txt
-
-# Filtrar logs por un cliente específico (ej. por DPI)
-grep "1234567890101" logs/mibanco-*.txt
-📊 Métricas y Datos de Prueba
-Considera estas métricas para evaluar el rendimiento y utiliza los datos predefinidos para tus pruebas.
-
-Rendimiento Esperado ⏱️
-Tiempo de respuesta para consultas: Idealmente menos de 200ms.
-
-Tiempo de respuesta para creaciones/transacciones: Idealmente menos de 500ms.
-
-Límite de solicitudes (Rate limit): 100 requests por minuto.
-
-Disponibilidad: Esperamos un 99.9% de tiempo de actividad.
-
-Datos de Prueba Incluidos 📝
-Puedes usar estos datos para empezar a interactuar con la API:
-
-Clientes Predefinidos
-DPI: 1234567890101 - Juan Carlos García López
-
-DPI: 9876543210987 - María Elena Rodríguez Morales
-
-Pagos Predefinidos
-Referencia: REF001 - Pago de servicios básicos (Q500.00)
-
-Referencia: REF002 - Pago de préstamo personal (Q1,200.00)
-
-¡Con esta guía, estás completamente equipado para probar y entender la API de MiBanco! Si tienes alguna pregunta adicional, no dudes en consultar la documentación interactiva en Swagger (https://localhost:7xxx/index.html).
-
-¡Felices pruebas! 🚀🏦
+*Desarrollado con ❤️ para la evaluacion bancarios modernos*
