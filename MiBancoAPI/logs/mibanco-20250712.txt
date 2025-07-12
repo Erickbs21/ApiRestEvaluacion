@@ -1,0 +1,5 @@
+2025-07-12 11:22:09.806 -06:00 [INF] 🚀 Iniciando MiBanco API...
+2025-07-12 11:22:10.049 -06:00 [INF] 📊 Swagger disponible en: https://localhost:7xxx/index.html
+2025-07-12 11:22:10.053 -06:00 [INF] 🏥 Health Check disponible en: https://localhost:7xxx/health
+2025-07-12 11:22:15.131 -06:00 [INF] Iniciando request GET /swagger desde ::1
+2025-07-12 11:22:15.249 -06:00 [INF] Request completado GET /swagger - Status: 404 - Tiempo: 181ms

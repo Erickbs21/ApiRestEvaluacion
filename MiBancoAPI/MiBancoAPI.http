@@ -1,0 +1,6 @@
+@MiBancoAPI_HostAddress = http://localhost:5211
+
+GET {{MiBancoAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

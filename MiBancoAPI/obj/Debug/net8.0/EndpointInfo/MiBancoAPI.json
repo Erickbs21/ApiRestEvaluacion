@@ -1,0 +1,867 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "MiBanco API",
+    "description": "API REST para servicios bancarios de MiBanco - Sistema completo de gestión bancaria",
+    "license": {
+      "name": "MIT License",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Cliente/{dpi}": {
+      "get": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Obtener cliente por DPI",
+        "description": "Retorna los datos completos de un cliente específico",
+        "parameters": [
+          {
+            "name": "dpi",
+            "in": "path",
+            "description": "Número de DPI del cliente (13 dígitos)",
+            "required": true,
+            "schema": {
+              "maxLength": 13,
+              "minLength": 13,
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cliente encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "DPI inválido"
+          },
+          "404": {
+            "description": "Cliente no encontrado"
+          }
+        }
+      }
+    },
+    "/api/Cliente": {
+      "post": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Crear nuevo cliente",
+        "description": "Registra un nuevo cliente en el sistema",
+        "requestBody": {
+          "description": "Datos del cliente a crear",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ClienteCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Cliente creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos"
+          },
+          "409": {
+            "description": "Cliente ya existe"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Cliente"
+        ],
+        "summary": "Obtener todos los clientes",
+        "description": "Retorna la lista de todos los clientes activos",
+        "responses": {
+          "200": {
+            "description": "Lista de clientes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClienteListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Log": {
+      "get": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "Obtener todos los logs",
+        "description": "Retorna la bitácora completa del sistema",
+        "responses": {
+          "200": {
+            "description": "Lista de logs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogEntryListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Log/fecha/{fecha}": {
+      "get": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "Obtener logs por fecha",
+        "description": "Retorna los logs de una fecha específica",
+        "parameters": [
+          {
+            "name": "fecha",
+            "in": "path",
+            "description": "Fecha en formato YYYY-MM-DD",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de logs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogEntryListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Log/nivel/{nivel}": {
+      "get": {
+        "tags": [
+          "Log"
+        ],
+        "summary": "Obtener logs por nivel",
+        "description": "Retorna los logs filtrados por nivel de severidad",
+        "parameters": [
+          {
+            "name": "nivel",
+            "in": "path",
+            "description": "Nivel de log (Info, Warning, Error, Debug)",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/LogNivel"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de logs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LogEntryListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Pago": {
+      "post": {
+        "tags": [
+          "Pago"
+        ],
+        "summary": "Crear nuevo pago",
+        "description": "Registra una nueva transacción de pago",
+        "requestBody": {
+          "description": "Datos del pago a crear",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagoCreateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagoCreateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PagoCreateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pago creado exitosamente",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagoApiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Datos inválidos"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Pago"
+        ],
+        "summary": "Obtener todos los pagos",
+        "description": "Retorna la lista completa de pagos registrados",
+        "responses": {
+          "200": {
+            "description": "Lista de pagos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagoListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Pago/cliente/{dpi}": {
+      "get": {
+        "tags": [
+          "Pago"
+        ],
+        "summary": "Obtener pagos por cliente",
+        "description": "Retorna el historial de pagos de un cliente",
+        "parameters": [
+          {
+            "name": "dpi",
+            "in": "path",
+            "description": "DPI del cliente",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de pagos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PagoListApiResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/info": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/StringStringStringDateTimeStringString<>f__AnonymousType1"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Cliente": {
+        "required": [
+          "apellidos",
+          "dpi",
+          "nombres"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "creadoPor": {
+            "type": "string",
+            "nullable": true
+          },
+          "modificadoPor": {
+            "type": "string",
+            "nullable": true
+          },
+          "estaActivo": {
+            "type": "boolean"
+          },
+          "dpi": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string"
+          },
+          "nombres": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "apellidos": {
+            "maxLength": 100,
+            "minLength": 0,
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "format": "tel",
+            "nullable": true
+          },
+          "fechaNacimiento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "direccion": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "saldoCuenta": {
+            "minimum": 0,
+            "type": "number",
+            "format": "double"
+          },
+          "estado": {
+            "$ref": "#/components/schemas/EstadoCliente"
+          },
+          "ultimaActividad": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "nombreCompleto": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "edad": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "saldoFormateado": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "activo": {
+            "type": "boolean",
+            "readOnly": true
+          },
+          "pagos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pago"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClienteApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Cliente"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "metadata": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClienteCreateDto": {
+        "type": "object",
+        "properties": {
+          "dpi": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombres": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellidos": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefono": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaNacimiento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "direccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "saldoInicial": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ClienteListApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Cliente"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "metadata": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EstadoCliente": {
+        "enum": [
+          "Activo (1)",
+          "Inactivo (2)",
+          "Suspendido (3)",
+          "Bloqueado (4)"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "EstadoPago": {
+        "enum": [
+          "Pendiente (1)",
+          "Procesando (2)",
+          "Completado (3)",
+          "Fallido (4)",
+          "Cancelado (5)",
+          "Revertido (6)"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "LogEntry": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "creadoPor": {
+            "type": "string",
+            "nullable": true
+          },
+          "modificadoPor": {
+            "type": "string",
+            "nullable": true
+          },
+          "estaActivo": {
+            "type": "boolean"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "accion": {
+            "type": "string",
+            "nullable": true
+          },
+          "detalles": {
+            "type": "string",
+            "nullable": true
+          },
+          "usuario": {
+            "type": "string",
+            "nullable": true
+          },
+          "endpoint": {
+            "type": "string",
+            "nullable": true
+          },
+          "nivel": {
+            "$ref": "#/components/schemas/LogNivel"
+          }
+        },
+        "additionalProperties": false
+      },
+      "LogEntryListApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/LogEntry"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "metadata": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "LogNivel": {
+        "enum": [
+          "Info (0)",
+          "Warning (1)",
+          "Error (2)",
+          "Debug (3)"
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "Pago": {
+        "required": [
+          "concepto",
+          "dpiCliente",
+          "monto",
+          "tipoPago"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "fechaModificacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "creadoPor": {
+            "type": "string",
+            "nullable": true
+          },
+          "modificadoPor": {
+            "type": "string",
+            "nullable": true
+          },
+          "estaActivo": {
+            "type": "boolean"
+          },
+          "dpiCliente": {
+            "maxLength": 13,
+            "minLength": 13,
+            "type": "string"
+          },
+          "monto": {
+            "minimum": 0.01,
+            "type": "number",
+            "format": "double"
+          },
+          "concepto": {
+            "maxLength": 200,
+            "minLength": 0,
+            "type": "string"
+          },
+          "tipoPago": {
+            "$ref": "#/components/schemas/TipoPago"
+          },
+          "numeroReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaPago": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "estado": {
+            "$ref": "#/components/schemas/EstadoPago"
+          },
+          "notasAdicionales": {
+            "type": "string",
+            "nullable": true
+          },
+          "comisionAplicada": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "montoFormateado": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
+          },
+          "montoTotal": {
+            "type": "number",
+            "format": "double",
+            "readOnly": true
+          },
+          "cliente": {
+            "$ref": "#/components/schemas/Cliente"
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagoApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "$ref": "#/components/schemas/Pago"
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "metadata": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagoCreateDto": {
+        "type": "object",
+        "properties": {
+          "dpiCliente": {
+            "type": "string",
+            "nullable": true
+          },
+          "monto": {
+            "type": "number",
+            "format": "double"
+          },
+          "concepto": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoPago": {
+            "$ref": "#/components/schemas/TipoPago"
+          },
+          "numeroReferencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "notasAdicionales": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PagoListApiResponse": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Pago"
+            },
+            "nullable": true
+          },
+          "message": {
+            "type": "string",
+            "nullable": true
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "metadata": {
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "StringStringStringDateTimeStringString<>f__AnonymousType1": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "version": {
+            "type": "string",
+            "nullable": true
+          },
+          "environment": {
+            "type": "string",
+            "nullable": true
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "status": {
+            "type": "string",
+            "nullable": true
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TipoPago": {
+        "enum": [
+          "Transferencia (1)",
+          "Deposito (2)",
+          "Retiro (3)",
+          "PagoServicios (4)",
+          "PagoPrestamo (5)"
+        ],
+        "type": "integer",
+        "format": "int32"
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "JWT Authorization header usando el esquema Bearer. Ejemplo: \"Authorization: Bearer {token}\"",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

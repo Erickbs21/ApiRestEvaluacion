@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MiBancoAPI</name>
+    </assembly>
+    <members>
+        <member name="M:MiBancoAPI.Controllers.ClienteController.ObtenerClientePorDPI(System.String)">
+            <summary>
+            Obtiene los datos de un cliente por su DPI
+            </summary>
+            <param name="dpi">Número de DPI del cliente (13 dígitos)</param>
+            <returns>Datos del cliente</returns>
+        </member>
+        <member name="M:MiBancoAPI.Controllers.ClienteController.CrearCliente(MiBancoAPI.Models.DTOs.Request.ClienteCreateDto)">
+            <summary>
+            Crea un nuevo cliente
+            </summary>
+            <param name="clienteDto">Datos del cliente a crear</param>
+            <returns>Cliente creado</returns>
+        </member>
+        <member name="M:MiBancoAPI.Controllers.ClienteController.ObtenerTodosLosClientes">
+            <summary>
+            Obtiene todos los clientes activos
+            </summary>
+            <returns>Lista de clientes</returns>
+        </member>
+        <member name="M:MiBancoAPI.Controllers.LogController.ObtenerLogs">
+            <summary>
+            Obtiene todos los logs del sistema
+            </summary>
+            <returns>Lista de logs</returns>
+        </member>
+        <member name="M:MiBancoAPI.Controllers.LogController.ObtenerLogsPorFecha(System.DateTime)">
+            <summary>
+            Obtiene los logs de una fecha específica
+            </summary>
+            <param name="fecha">Fecha en formato YYYY-MM-DD</param>
+            <returns>Lista de logs de la fecha especificada</returns>
+        </member>
+        <member name="M:MiBancoAPI.Controllers.LogController.ObtenerLogsPorNivel(MiBancoAPI.Models.Entities.LogNivel)">
+            <summary>
+            Obtiene los logs por nivel de severidad
+            </summary>
+            <param name="nivel">Nivel de log (Info, Warning, Error, Debug)</param>
+            <returns>Lista de logs del nivel especificado</returns>
+        </member>
+        <member name="M:MiBancoAPI.Controllers.PagoController.CrearPago(MiBancoAPI.Models.DTOs.Request.PagoCreateDto)">
+            <summary>
+            Crea un nuevo pago
+            </summary>
+            <param name="pagoDto">Datos del pago a crear</param>
+            <returns>Pago creado</returns>
+        </member>
+        <member name="M:MiBancoAPI.Controllers.PagoController.ObtenerPagosPorCliente(System.String)">
+            <summary>
+            Obtiene todos los pagos de un cliente específico
+            </summary>
+            <param name="dpi">DPI del cliente</param>
+            <returns>Lista de pagos del cliente</returns>
+        </member>
+        <member name="M:MiBancoAPI.Controllers.PagoController.ObtenerTodosLosPagos">
+            <summary>
+            Obtiene todos los pagos registrados
+            </summary>
+            <returns>Lista de todos los pagos</returns>
+        </member>
+    </members>
+</doc>
